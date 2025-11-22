@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="sendEmailMapper">
+	<select id="findEmailList" resultType="com.ksinfo.batch.vo.SendMailDto">
+	SELECT
+	    mm.mail_idx,
+	    mm.issue_all_emp_flg,
+	    mrm.recipient_emp,
+	    mrm.recipient_type,
+	    em.emp_comp_mail,
+	    mcm.subject,
+	    mcm.content
+	FROM
+	    mail_mgt AS mm
+	INNER JOIN  mail_issue_mgt AS mim
+	    ON mm.mail_idx = mim.mail_idx
+	    AND mim.issue_date::date = CURRENT_DATE
+	    AND mim.logical_del_flg = FALSE
+	LEFT JOIN  mail_recipient_mgt AS mrm
+	    ON mm.mail_idx = mrm.mail_idx
+	    AND mrm.logical_del_flg = FALSE
+	LEFT JOIN emp_mgt AS em
+	    ON em.emp_id = mrm.recipient_emp
+	    AND em.logical_del_flg = FALSE
+	INNER JOIN  mail_contents_mgt AS mcm
+	    ON mm.mail_idx = mcm.mail_idx
+	    AND mcm.logical_del_flg = FALSE
+	WHERE
+	    mm.issue_flg = TRUE
+	AND
+	    mm.logical_del_flg = FALSE
+	</select>
+
+	<select id="findAllUserEmailList" resultType="String">
+	SELECT
+	    emp_comp_mail
+	FROM
+		emp_mgt
+	WHERE
+	    resign_flg = FALSE
+	AND
+	   logical_del_flg = FALSE
+	</select>
+</mapper>

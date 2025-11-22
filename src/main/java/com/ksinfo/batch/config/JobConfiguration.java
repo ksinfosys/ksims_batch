@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.ksinfo.batch.tasklet.ReadExpirationDateAndInsertTasklet;
+import com.ksinfo.batch.tasklet.SendEmailTasklet;
 
 import lombok.RequiredArgsConstructor;
 
@@ -51,19 +52,19 @@ public class JobConfiguration {
 	 * 起動：毎日定時（JST 08:00）
 	 * step01: メール送信
 	 */
-	// @Bean
-	// public Job sendEmailBatch() {
-	// 	return jobBuilderFactory.get("KSBAT_PT099")
-	// 			.start(sendEmailStatus())
-	// 			.build();	
-	// }
+	@Bean
+	public Job sendEmailBatch() {
+		return jobBuilderFactory.get("KSBAT_PT099")
+				.start(sendEmailStatus())
+				.build();	
+	}
 	
 	/** KSIMSバッチ99－1番：メール送信ステップ */
 	// @Bean
-	// public Step sendEmailStatus() {
-	// 	return stepBuilderFactory.get("sendEmail")
-	// 			.allowStartIfComplete(true)
-	// 			.tasklet(SendEmailTasklet)
-	// 			.build();
-	// }	
+	public Step sendEmailStatus() {
+		return stepBuilderFactory.get("sendEmail")
+				.allowStartIfComplete(true)
+				.tasklet(SendEmailTasklet)
+				.build();
+	}	
 }

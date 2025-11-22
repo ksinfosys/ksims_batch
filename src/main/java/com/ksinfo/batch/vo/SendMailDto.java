@@ -1,20 +1,24 @@
 package com.ksinfo.batch.vo;
 
-public class MailDto {
+public class SendMailDto {
 
 	private Long mailIdx;
 	private String empId;
 	private String issueFromDate;
 	private String issueToDate;
-	private int issueFlg;
-	private int issueAllEmpFlg;
-	private int adminCreateFlg;
+	private boolean issueFlg;
+	private boolean issueAllEmpFlg;
+	private boolean adminCreateFlg;
+	private String recipientEmp;
+	private String recipientType;
+	private String empCompMail;
+	private String subject;
+	private String content;
 	private String createId;
 	private String createDate;
 	private String updateId;
 	private String updateDate;
 	private int logicalDelFlg;
-	
 	public Long getMailIdx() {
 		return mailIdx;
 	}
@@ -39,23 +43,53 @@ public class MailDto {
 	public void setIssueToDate(String issueToDate) {
 		this.issueToDate = issueToDate;
 	}
-	public int getIssueFlg() {
+	public boolean getIssueFlg() {
 		return issueFlg;
 	}
-	public void setIssueFlg(int issueFlg) {
+	public void setIssueFlg(boolean issueFlg) {
 		this.issueFlg = issueFlg;
 	}
-	public int getIssueAllEmpFlg() {
+	public boolean getIssueAllEmpFlg() {
 		return issueAllEmpFlg;
 	}
-	public void setIssueAllEmpFlg(int issueAllEmpFlg) {
+	public void setIssueAllEmpFlg(boolean issueAllEmpFlg) {
 		this.issueAllEmpFlg = issueAllEmpFlg;
 	}
-	public int getAdminCreateFlg() {
+	public boolean getAdminCreateFlg() {
 		return adminCreateFlg;
 	}
-	public void setAdminCreateFlg(int adminCreateFlg) {
+	public void setAdminCreateFlg(boolean adminCreateFlg) {
 		this.adminCreateFlg = adminCreateFlg;
+	}
+	public String getRecipientEmp() {
+		return recipientEmp;
+	}
+	public void setRecipientEmp(String recipientEmp) {
+		this.recipientEmp = recipientEmp;
+	}
+	public String getRecipientType() {
+		return recipientType;
+	}
+	public void setRecipientType(String recipientType) {
+		this.recipientType = recipientType;
+	}
+	public String getEmpCompMail() {
+		return empCompMail;
+	}
+	public void setEmpCompMail(String empCompMail) {
+		this.empCompMail = empCompMail;
+	}
+	public String getSubject() {
+		return subject;
+	}
+	public void setSubject(String subject) {
+		this.subject = subject;
+	}
+	public String getContent() {
+		return content;
+	}
+	public void setContent(String content) {
+		this.content = content;
 	}
 	public String getCreateId() {
 		return createId;

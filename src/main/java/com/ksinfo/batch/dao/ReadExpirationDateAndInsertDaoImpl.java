@@ -74,6 +74,7 @@ public class ReadExpirationDateAndInsertDaoImpl extends SqlSessionFactoryService
 		getSqlSessionTemplate().insert("residenceCardMapper.insertMailIssue", issueTarget);
 		getSqlSessionTemplate().insert("residenceCardMapper.insertMailContents", contentsTarget);
 
+		return;
 	}
 	
 }
