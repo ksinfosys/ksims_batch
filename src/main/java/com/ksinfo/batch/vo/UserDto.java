@@ -6,7 +6,8 @@ public class UserDto {
 	private String empName;
 	private String empCompMail;
 	private String stayExpirationDate;
-	
+	private String hiredDate;
+
 	public String getEmpId() {
 		return empId;
 	}
@@ -31,5 +32,10 @@ public class UserDto {
 	public void setStayExpirationDate(String stayExpirationDate) {
 		this.stayExpirationDate = stayExpirationDate;
 	}
-	
+	public String getHiredDate() {
+		return hiredDate;
+	}
+	public void setHiredDate(String hiredDate) {
+		this.hiredDate = hiredDate;
+	}
 }
