@@ -38,7 +38,6 @@ public class ReadExpirationDateAndInsertDaoImpl extends SqlSessionFactoryService
 	@Override
 	public List<UserDto> getTargetUserList() throws Exception {
 		return getSqlSessionTemplate().selectList("residenceCardMapper.getTargetUser");
-		
 	}
 
 	@Override

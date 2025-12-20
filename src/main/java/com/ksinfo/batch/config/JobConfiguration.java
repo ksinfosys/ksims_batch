@@ -12,6 +12,7 @@ import org.springframework.context.annotation.Configuration;
 
 import com.ksinfo.batch.tasklet.ReadExpirationDateAndInsertTasklet;
 import com.ksinfo.batch.tasklet.ReadMonthlyCheckTasklet;
+import com.ksinfo.batch.tasklet.ReadRegularPassCheckTasklet;
 import com.ksinfo.batch.tasklet.SendEmailTasklet;
 
 import lombok.RequiredArgsConstructor;
@@ -28,6 +29,9 @@ public class JobConfiguration {
 	
 	@Autowired
 	ReadMonthlyCheckTasklet ReadMonthlyCheckTasklet;
+	
+	@Autowired
+	ReadRegularPassCheckTasklet ReadRegularPassCheckTasklet;
 	
 	@Autowired
 	SendEmailTasklet SendEmailTasklet;
@@ -76,21 +80,21 @@ public class JobConfiguration {
 	 * 起動：毎月１１日（JST 07:00）
 	 * step01: 関連社員一覧、メール内容登録
 	 */
-	// @Bean
-	// public Job readRegularPassCheckBatch() {
-	// 	return jobBuilderFactory.get("KSBAT_PT003")
-	// 			.start(readRegularPassCheckStatus())
-	// 			.build();	
-	// }
+	@Bean
+	public Job readRegularPassCheckBatch() {
+		return jobBuilderFactory.get("KSBAT_PT003")
+				.start(readRegularPassCheckStatus())
+				.build();	
+	}
 	
 	/** KSIMSバッチ０３－1番：交通費未登録社員　メール内容登録ステップ */
-	// @Bean
-	// public Step readRegularPassCheckStatus() {
-	// 	return stepBuilderFactory.get("ReadRegularPassCheck")
-	// 			.allowStartIfComplete(true)
-	// 			.tasklet(ReadRegularPassCheckTasklet)
-	// 			.build();
-	// }	
+	@Bean
+	public Step readRegularPassCheckStatus() {
+		return stepBuilderFactory.get("ReadRegularPassCheck")
+				.allowStartIfComplete(true)
+				.tasklet(ReadRegularPassCheckTasklet)
+				.build();
+	}	
 
 	/** KSIMSバッチ99番：メール送信ジョブ 
 	 * 起動：毎日定時（JST 08:00）

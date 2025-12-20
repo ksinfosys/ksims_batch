@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="regularPassCheckTaskletMapper">
+	<select id="getUser" resultType="com.ksinfo.batch.vo.UserDto">
+		SELECT DISTINCT
+			em.emp_id, 
+			em.emp_name, 
+			em.emp_comp_mail
+		FROM 
+			emp_mgt as em
+		WHERE
+			em.vehicle_fix_flg = false
+		AND
+			em.logical_del_flg = false
+		ORDER BY em.emp_id
+	</select>
+
+	<select id="getNonTargetUserId" resultType="string">
+		SELECT DISTINCT
+			em.emp_id
+		FROM 
+			emp_mgt as em
+        LEFT JOIN
+            vihicle_mgt AS vm
+            ON em.emp_id = vm.emp_id
+		WHERE
+			vm.request_date &gt;= CURRENT_DATE - INTERVAL '1 month'
+			AND vm.request_date &lt; CURRENT_DATE
+        AND
+			em.vehicle_fix_flg = false
+		AND
+			em.logical_del_flg = false
+        AND
+            vm.logical_del_flg = false
+	</select>
+
+	<insert id="insertMailMgt" parameterType="com.ksinfo.batch.vo.UserDto">
+	 	INSERT INTO mail_mgt(
+		 	mail_idx,
+			emp_id,
+		 	issue_from_date,
+			job_id,
+			create_id,
+			update_id
+	 	)
+	 	VALUES
+		(
+			nextval('mail_id_seq'),
+			'admin',
+			CURRENT_DATE,
+			'KSBAT_PT003',
+			'admin',
+			'admin'
+		)
+	</insert>
+	
+	<select id="getInsertedMailMgt" parameterType="int" resultType="com.ksinfo.batch.vo.MailDto">
+		SELECT
+			mail_idx,
+			emp_id,
+			issue_from_date
+		FROM
+			mail_mgt
+		WHERE
+			job_id = 'KSBAT_PT003'
+		ORDER BY
+			mail_idx
+		LIMIT 
+			#{insertCount}
+	</select>
+	
+	<insert id="insertMailRecipient" parameterType="com.ksinfo.batch.vo.MailRecipientDto">
+		INSERT INTO mail_recipient_mgt(
+			mail_idx,
+			recipient_emp,
+			recipient_type
+		)
+		VALUES
+		<foreach collection="list" item="item" separator=",">
+			(
+				#{item.mailIdx},
+				#{item.recipientEmp},
+				#{item.recipientType}
+			)
+		</foreach>
+	</insert>
+
+	<insert id="insertMailIssue" parameterType="com.ksinfo.batch.vo.MailIssueDto">
+		INSERT INTO mail_issue_mgt(
+			mail_idx,
+			issue_date
+		)
+		VALUES
+		<foreach collection="list" item="item" separator=",">
+			(
+				#{item.mailIdx},
+				#{item.issueDate}
+			)
+		</foreach>
+	</insert>
+
+	<insert id="insertMailContents" parameterType="com.ksinfo.batch.vo.MailContentsDto">
+		INSERT INTO mail_contents_mgt(
+			mail_idx,
+			sender,
+			subject,
+			content
+		)
+		VALUES
+		<foreach collection="list" item="item" separator=",">
+			(
+				#{item.mailIdx},
+				#{item.sender},
+				#{item.subject},
+				#{item.content}
+			)
+		</foreach>
+	</insert>
+</mapper>
