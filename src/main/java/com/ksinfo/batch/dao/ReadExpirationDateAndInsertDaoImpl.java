@@ -67,7 +67,7 @@ public class ReadExpirationDateAndInsertDaoImpl extends SqlSessionFactoryService
 				current = current.plusWeeks(1);
 			}
 			String userName = targetUser.stream().filter(u -> u.getEmpId().equals(target.getEmpId())).findFirst().map(UserDto::getEmpName).orElse(null);
-			contentsTarget.add(new MailContentsDto(target.getMailIdx(), sender, userName + subject, content));
+			contentsTarget.add(new MailContentsDto(target.getMailIdx(), sender, subject, userName + content));
 		}
 		getSqlSessionTemplate().insert("residenceCardMapper.insertMailRecipient", recipientTarget);
 		getSqlSessionTemplate().insert("residenceCardMapper.insertMailIssue", issueTarget);
