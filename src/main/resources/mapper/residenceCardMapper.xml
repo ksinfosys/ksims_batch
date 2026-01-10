@@ -19,7 +19,7 @@
 		WHERE
 			em.stay_expiration_date
 				BETWEEN CURRENT_DATE + INTERVAL '1 day'
-					AND CURRENT_DATE + INTERVAL '62 days'
+					AND CURRENT_DATE + INTERVAL '93 days'
 		AND
 			em.logical_del_flg = false
         AND
