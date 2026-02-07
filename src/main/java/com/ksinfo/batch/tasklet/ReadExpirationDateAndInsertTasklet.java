@@ -29,15 +29,12 @@ public class ReadExpirationDateAndInsertTasklet implements Tasklet{
 	@Override
 	@Transactional(rollbackFor = {Exception.class})
 	public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws Exception {
-			List<UserDto> targetUser = new ArrayList<UserDto>();
-			targetUser = redDao.getTargetUserList();
-			
-			if(!targetUser.isEmpty()) {
-				redDao.insertMail(targetUser);
-			}
-			
+		List<UserDto> targetUser = new ArrayList<UserDto>();
+		targetUser = redDao.getTargetUserList();
+		
+		if(!targetUser.isEmpty()) {
+			redDao.insertMail(targetUser);
+		}
 		return RepeatStatus.FINISHED;
 	}
-
-	
 }

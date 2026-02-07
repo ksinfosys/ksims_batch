@@ -7,6 +7,8 @@ public class UserDto {
 	private String empCompMail;
 	private String stayExpirationDate;
 	private String hiredDate;
+	private String mailIdx;
+	private String issueToDate;
 
 	public String getEmpId() {
 		return empId;
@@ -38,4 +40,17 @@ public class UserDto {
 	public void setHiredDate(String hiredDate) {
 		this.hiredDate = hiredDate;
 	}
+	public String getMailIdx() {
+		return mailIdx;
+	}
+	public void setMailIdx(String mailIdx) {
+		this.mailIdx = mailIdx;
+	}
+	public String getIssueToDate() {
+		return issueToDate;
+	}
+	public void setIssueToDate(String issueToDate) {
+		this.issueToDate = issueToDate;
+	}
+	
 }

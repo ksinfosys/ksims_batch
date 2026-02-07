@@ -16,10 +16,10 @@ import com.ksinfo.batch.vo.MailRecipientDto;
 import com.ksinfo.batch.vo.UserDto;
 
 @Repository
-@PropertySource(value = {"classpath:admin.properties", "classpath:sendEmail.properties"}, encoding = "UTF-8")
+@PropertySource(value = "classpath:sendEmail.properties", encoding = "UTF-8")
 public class ReadMonthlyCheckDaoImpl extends SqlSessionFactoryService implements ReadMonthlyCheckDao {
 
-	@Value("${KSBAT_PT002_BATCH_TARGET_ADMIN}")
+	@Value("${BATCH_TARGET_ADMIN}")
 	private String targetAdmin;
 	 
 	@Value("${monthlyCheck.sender}")
