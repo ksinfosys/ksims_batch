@@ -21,8 +21,10 @@ public class ReadExpirationDateAndInsertDaoImpl extends SqlSessionFactoryService
 
 	@Value("${expiration.sender}")
 	private String sender;
+
 	@Value("${expiration.subject}")
 	private String subject;
+	
 	@Value("${expiration.content}")
 	private String content;
 
