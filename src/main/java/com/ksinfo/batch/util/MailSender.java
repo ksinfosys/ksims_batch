@@ -31,7 +31,7 @@ public class MailSender {
         return new PropertySourcesPlaceholderConfigurer();
     }
 
-	public void sendEmail(String email, String sender, String subject, String content, boolean sendAdminFlag) throws Exception {
+	public void sendEmail(String email, String sender, String subject, String content, boolean sendAdminFlag, boolean sendSlackFlag, String slackEmail) throws Exception {
 
 		int port = 465; // 決まってるportを使う
 
@@ -70,6 +70,9 @@ public class MailSender {
 			mimeMessage.setRecipient(Message.RecipientType.TO, new InternetAddress(email)); // 送り先設定
 			if(sendAdminFlag){
 				mimeMessage.setRecipient(Message.RecipientType.CC, new InternetAddress(targetAdmin));
+			}
+			if(sendSlackFlag){
+				mimeMessage.setRecipient(Message.RecipientType.CC, new InternetAddress(slackEmail));
 			}
             mimeMessage.setSubject(subject); // タイトル設定
 			mimeMessage.setText(content); // 内容設定

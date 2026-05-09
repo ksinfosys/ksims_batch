@@ -28,6 +28,9 @@ public class ReadExpirationDateAndInsertDaoImpl extends SqlSessionFactoryService
 	@Value("${expiration.content}")
 	private String content;
 
+	@Value("${expiration.slackEmail}")
+	private String slackEmail;
+
 	@Override
 	public List<UserDto> getTargetUserList() throws Exception {
 		return getSqlSessionTemplate().selectList("residenceCardMapper.getTargetUser");
@@ -37,7 +40,7 @@ public class ReadExpirationDateAndInsertDaoImpl extends SqlSessionFactoryService
 	public void insertMail(List<UserDto> targetUser) throws Exception {
 		List<UserDto> insertTarget = new ArrayList<UserDto>();
 		for (UserDto target : targetUser) {
-			mailSender.sendEmail(target.getEmpCompMail(), sender, subject, target.getEmpName() + content, true);
+			mailSender.sendEmail(target.getEmpCompMail(), sender, subject, target.getEmpName() + content, true, true, slackEmail);
 			
 			if(target.getMailIdx() == null || target.getMailIdx().isEmpty()) {
 				target.setIssueToDate(target.getStayExpirationDate());

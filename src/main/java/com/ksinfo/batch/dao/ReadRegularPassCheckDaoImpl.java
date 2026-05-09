@@ -39,7 +39,7 @@ public class ReadRegularPassCheckDaoImpl extends SqlSessionFactoryService implem
 	@Override
 	public void insertMail(List<UserDto> targetUser) throws Exception {
 		for (UserDto target : targetUser){
-			mailSender.sendEmail(target.getEmpCompMail(), sender, subject, target.getEmpName() + content, true);
+			mailSender.sendEmail(target.getEmpCompMail(), sender, subject, target.getEmpName() + content, true, true, "");
 		} 
 
 		return;

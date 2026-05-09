@@ -24,6 +24,7 @@
 	LEFT JOIN emp_mgt AS em
 	    ON em.emp_id = mrm.recipient_emp
 	    AND em.logical_del_flg = FALSE
+	    AND em.resign_flg = FALSE
 	INNER JOIN  mail_contents_mgt AS mcm
 	    ON mm.mail_idx = mcm.mail_idx
 	    AND mcm.logical_del_flg = FALSE

@@ -14,6 +14,8 @@
 			em.vehicle_fix_flg = false
 		AND
 			em.logical_del_flg = false
+		AND
+			em.resign_flg = false
 		ORDER BY em.emp_id
 	</select>
 
@@ -34,5 +36,7 @@
 			em.logical_del_flg = false
         AND
             vm.logical_del_flg = false
+		AND
+			em.resign_flg = false
 	</select>
 </mapper>
