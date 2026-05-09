@@ -8,7 +8,9 @@
 			em.emp_id, 
 			em.emp_name, 
 			em.emp_comp_mail, 
-			em.stay_expiration_date
+			em.stay_expiration_date,
+            mm.mail_idx,
+			mm.issue_to_date
 		FROM 
 			emp_mgt as em
         LEFT JOIN
@@ -22,8 +24,14 @@
 					AND CURRENT_DATE + INTERVAL '93 days'
 		AND
 			em.logical_del_flg = false
+		AND
+			em.resign_flg = false
         AND
-            mm.mail_idx IS NULL
+            (mm.mail_idx IS NULL 
+            OR
+            (mm.issue_flg = true
+			AND
+            mm.issue_to_date &gt;= CURRENT_DATE))
 		ORDER BY
 			em.emp_id
 	</select>
@@ -50,69 +58,5 @@
 				#{user.empId}
 			)
   		</foreach>
-	</insert>
-	
-	<select id="getInsertedMailMgt" parameterType="int" resultType="com.ksinfo.batch.vo.MailDto">
-		SELECT
-			mail_idx,
-			emp_id,
-			issue_from_date,
-			issue_to_date
-		FROM
-			mail_mgt
-		WHERE
-			job_id = 'KSBAT_PT001'
-		ORDER BY
-			mail_idx
-		LIMIT 
-			#{insertCount}
-	</select>
-	
-	<insert id="insertMailRecipient" parameterType="com.ksinfo.batch.vo.MailRecipientDto">
-		INSERT INTO mail_recipient_mgt(
-			mail_idx,
-			recipient_emp,
-			recipient_type
-		)
-		VALUES
-		<foreach collection="list" item="item" separator=",">
-			(
-				#{item.mailIdx},
-				#{item.recipientEmp},
-				#{item.recipientType}
-			)
-		</foreach>
-	</insert>
-
-	<insert id="insertMailIssue" parameterType="com.ksinfo.batch.vo.MailIssueDto">
-		INSERT INTO mail_issue_mgt(
-			mail_idx,
-			issue_date
-		)
-		VALUES
-		<foreach collection="list" item="item" separator=",">
-			(
-				#{item.mailIdx},
-				#{item.issueDate}
-			)
-		</foreach>
-	</insert>
-
-	<insert id="insertMailContents" parameterType="com.ksinfo.batch.vo.MailContentsDto">
-		INSERT INTO mail_contents_mgt(
-			mail_idx,
-			sender,
-			subject,
-			content
-		)
-		VALUES
-		<foreach collection="list" item="item" separator=",">
-			(
-				#{item.mailIdx},
-				#{item.sender},
-				#{item.subject},
-				#{item.content}
-			)
-		</foreach>
 	</insert>
 </mapper>

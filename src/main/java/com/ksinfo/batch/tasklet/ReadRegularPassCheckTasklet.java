@@ -1,5 +1,7 @@
 package com.ksinfo.batch.tasklet;
 
+import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,15 +30,29 @@ public class ReadRegularPassCheckTasklet implements Tasklet{
 	@Override
 	@Transactional(rollbackFor = {Exception.class})
 	public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws Exception {
-			List<UserDto> targetUser = new ArrayList<UserDto>();
-			targetUser = rpcDao.getTargetUserList();
+			LocalDate current = LocalDate.now();
+			// LocalDate startMonth = current.withDayOfMonth(1);
+			// int businessDay = 0;
+			
+			// while(businessDay <= 6) {
+			// 	DayOfWeek day = startMonth.getDayOfWeek();
+			// 	if(day != DayOfWeek.SATURDAY && day != DayOfWeek.SUNDAY){
+			// 		++businessDay;
+			// 	}
+			// 	startMonth = startMonth.plusDays(1);
+			// }
 
-			if(!targetUser.isEmpty()) {
-				rpcDao.insertMail(targetUser);
+			// if(current == startMonth){
+			if(current.getDayOfMonth() == 12){
+				List<UserDto> targetUser = new ArrayList<UserDto>();
+				targetUser = rpcDao.getTargetUserList();
+
+				if(!targetUser.isEmpty()) {
+					rpcDao.insertMail(targetUser);
+				}
 			}
+			// }
 			
 		return RepeatStatus.FINISHED;
 	}
-
-	
 }

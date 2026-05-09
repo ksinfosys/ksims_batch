@@ -20,7 +20,7 @@ import com.ksinfo.batch.config.SqlSessionFactoryService;
 import com.ksinfo.batch.vo.SendMailDto;
 
 @Repository
-@PropertySource(value = {"classpath:admin.properties", "classpath:sendEmail.properties"}, encoding = "UTF-8")
+@PropertySource(value = "classpath:sendEmail.properties", encoding = "UTF-8")
 public class SendEmailDaoImpl extends SqlSessionFactoryService implements SendEmailDao {
 
 	@Value("${send.host}")
