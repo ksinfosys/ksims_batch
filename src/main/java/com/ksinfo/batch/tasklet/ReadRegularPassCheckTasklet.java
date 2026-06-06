@@ -43,14 +43,14 @@ public class ReadRegularPassCheckTasklet implements Tasklet{
 			// }
 
 			// if(current == startMonth){
-			if(current.getDayOfMonth() == 12){
+			// if(current.getDayOfMonth() == 12){
 				List<UserDto> targetUser = new ArrayList<UserDto>();
 				targetUser = rpcDao.getTargetUserList();
 
 				if(!targetUser.isEmpty()) {
 					rpcDao.insertMail(targetUser);
 				}
-			}
+			// }
 			// }
 			
 		return RepeatStatus.FINISHED;
