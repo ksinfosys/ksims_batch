@@ -34,11 +34,15 @@ public class ReadMonthlyCheckTasklet implements Tasklet{
 			List<UserDto> yearTargetUser = new ArrayList<UserDto>();
 			List<UserDto> conductTargetUser = new ArrayList<UserDto>();
 
-			yearTargetUser = rmcDao.getTargetUserList(year);
+			// yearTargetUser = rmcDao.getTargetUserList(year);
 			conductTargetUser = rmcDao.getTargetUserList(conduct);
 
-			if(!yearTargetUser.isEmpty() || !conductTargetUser.isEmpty()) {
-				rmcDao.insertMail(yearTargetUser, conductTargetUser);
+			// if(!yearTargetUser.isEmpty() || !conductTargetUser.isEmpty()) {
+				// rmcDao.insertMail(yearTargetUser, conductTargetUser);
+			// }
+
+			if(!conductTargetUser.isEmpty()){
+				rmcDao.executeConduct(conductTargetUser);
 			}
 			
 		return RepeatStatus.FINISHED;

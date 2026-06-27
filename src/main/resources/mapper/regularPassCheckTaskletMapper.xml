@@ -39,4 +39,26 @@
 		AND
 			em.resign_flg = false
 	</select>
+
+	<insert id="insertMailMgt" parameterType="com.ksinfo.batch.vo.UserDto">
+	 	INSERT INTO mail_mgt(
+		 	mail_idx,
+			emp_id,
+		 	issue_from_date,
+			job_id,
+			create_id,
+			update_id
+	 	)
+	 	VALUES
+		<foreach collection="list" item="user" separator=",">
+    		(
+				nextval('mail_id_seq'),
+				#{user.empId},
+				CURRENT_DATE,
+				'KSBAT_PT003',
+				#{user.empId},
+				#{user.empId}
+			)
+  		</foreach>
+	</insert>
 </mapper>

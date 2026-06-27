@@ -36,9 +36,9 @@ public class JobConfiguration {
 	@Autowired
 	SendEmailTasklet SendEmailTasklet;
 
-	/** KSIMSバッチ０１番：在留カード満了67日前、メール内容登録ジョブ 
+	/** KSIMSバッチ０１番：在留カード満了67日前、メールジョブ 
 	 * 起動：毎日定時（JST 00:00）
-	 * step01: 在留カード満了日確認及びメール内容登録
+	 * step01: 在留カード満了日確認
 	 */
 	@Bean
 	public Job notiExpirationBatch() {
@@ -47,7 +47,7 @@ public class JobConfiguration {
 				.build();	
 	}
 	
-	/** KSIMSバッチ０１－1番：在留カード満了67日前、メール内容登録ステップ */
+	/** KSIMSバッチ０１－1番：在留カード満了67日前、メールステップ */
 	@Bean
 	public Step readExpirationDateAndInsertStatus() {
 		return stepBuilderFactory.get("ReadExpirationDateAndInsert")
@@ -56,9 +56,9 @@ public class JobConfiguration {
 				.build();
 		}
 		
-	/** KSIMSバッチ０２番：毎月4目の営業日、当月が入社月、勤務表作未登録　メール内容登録ジョブ 
-	 * 起動：毎月4目の営業日（JST 07:00）
-	 * step01: 関連社員一覧、メール内容登録
+	/** KSIMSバッチ０２番：毎月2日、勤務表作未登録　メールジョブ 
+	 * 起動：毎月2日（JST 07:00）
+	 * step01: 関連社員一覧
 	 */
 	@Bean
 	public Job readMonthlyCheckBatch() {
@@ -67,8 +67,8 @@ public class JobConfiguration {
 				.build();	
 	}
 	
-	/** KSIMSバッチ０２－1番：当月が入社月、勤務表作未登録、交通費未登録社員　メール内容登録ステップ */
-	// @Bean
+	/** KSIMSバッチ０２－1番：勤務表作未登録、交通費未登録社員　メールステップ */
+	@Bean
 	public Step readMonthlyCheckStatus() {
 		return stepBuilderFactory.get("ReadMonthlyCheck")
 				.allowStartIfComplete(true)
@@ -76,9 +76,9 @@ public class JobConfiguration {
 				.build();
 	}	
 
-	/** KSIMSバッチ０３番：毎月１2日、交通費未登録社員　メール内容登録ジョブ 
+	/** KSIMSバッチ０３番：毎月１2日、交通費未登録社員　メールジョブ 
 	 * 起動：毎月１2日（JST 07:00）
-	 * step01: 関連社員一覧、メール内容登録
+	 * step01: 関連社員一覧
 	 */
 	@Bean
 	public Job readRegularPassCheckBatch() {
@@ -87,7 +87,7 @@ public class JobConfiguration {
 				.build();	
 	}
 	
-	/** KSIMSバッチ０３－1番：交通費未登録社員　メール内容登録ステップ */
+	/** KSIMSバッチ０３－1番：交通費未登録社員　メールステップ */
 	@Bean
 	public Step readRegularPassCheckStatus() {
 		return stepBuilderFactory.get("ReadRegularPassCheck")

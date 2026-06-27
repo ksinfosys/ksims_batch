@@ -3,12 +3,15 @@ package com.ksinfo.batch.dao;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Repository;
 
 import com.ksinfo.batch.config.SqlSessionFactoryService;
+import com.ksinfo.batch.util.MailSender;
 import com.ksinfo.batch.vo.MailContentsDto;
 import com.ksinfo.batch.vo.MailDto;
 import com.ksinfo.batch.vo.MailIssueDto;
@@ -19,14 +22,26 @@ import com.ksinfo.batch.vo.UserDto;
 @PropertySource(value = "classpath:sendEmail.properties", encoding = "UTF-8")
 public class ReadMonthlyCheckDaoImpl extends SqlSessionFactoryService implements ReadMonthlyCheckDao {
 
+	@Autowired
+	private MailSender mailSender;
+	
 	@Value("${BATCH_TARGET_ADMIN}")
 	private String targetAdmin;
 	 
-	@Value("${monthlyCheck.sender}")
+	@Value("${conductCheck.sender}")
 	private String sender;
 	
-	@Value("${monthlyCheck.subject}")
+	@Value("${conductCheck.subject}")
 	private String subject;
+
+	@Value("${conductCheck.content}")
+	private String content;
+
+	@Value("${conductCheck.admincontent}")
+	private String adminContent;
+
+	@Value("${conductCheck.slackEmail}")
+	private String slackEmail;
 
 	private final String to = "to";
 
@@ -102,4 +117,22 @@ public class ReadMonthlyCheckDaoImpl extends SqlSessionFactoryService implements
 		return;
 	}
 	
+	@Override
+	public void executeConduct(List<UserDto> conductTargetUser) throws Exception {
+		String targetNames = conductTargetUser.stream()
+				.map(u -> u.getEmpName() + " (" + u.getEmpId() + ")")
+				.collect(Collectors.joining("\n"));
+				
+		String adminContent = this.adminContent.replace("$name$", targetNames);
+
+		for (UserDto target : conductTargetUser){
+			mailSender.sendEmail(target.getEmpCompMail(), sender, subject, target.getEmpName() + content, true, false, "");
+		} 
+
+		mailSender.sendEmail(targetAdmin, sender, subject, adminContent, false, true, slackEmail);
+
+		getSqlSessionTemplate().insert("monthlyCheckMapper.insertMailMgt", conductTargetUser);
+
+		return;
+	}
 }

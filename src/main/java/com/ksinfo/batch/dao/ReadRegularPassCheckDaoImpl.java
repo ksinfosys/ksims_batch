@@ -28,6 +28,15 @@ public class ReadRegularPassCheckDaoImpl extends SqlSessionFactoryService implem
 	@Value("${regularPassCheck.content}")
 	private String content;
 
+	@Value("${regularPassCheck.admincontent}")
+	private String adminContent;
+
+	@Value("${BATCH_TARGET_ADMIN}")
+	private String targetAdmin;
+
+	@Value("${regularPassCheck.slackEmail}")
+	private String slackEmail;
+
 	@Override
 	public List<UserDto> getTargetUserList() throws Exception {
 		List<UserDto> userList = getSqlSessionTemplate().selectList("regularPassCheckTaskletMapper.getUser");
@@ -38,9 +47,18 @@ public class ReadRegularPassCheckDaoImpl extends SqlSessionFactoryService implem
 
 	@Override
 	public void insertMail(List<UserDto> targetUser) throws Exception {
+		String targetNames = targetUser.stream()
+				.map(u -> u.getEmpName() + " (" + u.getEmpId() + ")")
+				.collect(Collectors.joining("\n"));
+		String adminContent = this.adminContent.replace("$name$", targetNames);
+
 		for (UserDto target : targetUser){
-			mailSender.sendEmail(target.getEmpCompMail(), sender, subject, target.getEmpName() + content, true, true, "");
+			mailSender.sendEmail(target.getEmpCompMail(), sender, subject, target.getEmpName() + content, true, false, "");
 		} 
+
+		mailSender.sendEmail(targetAdmin, sender, subject, adminContent, false, true, slackEmail);
+
+		getSqlSessionTemplate().insert("regularPassCheckTaskletMapper.insertMailMgt", targetUser);
 
 		return;
 	}
