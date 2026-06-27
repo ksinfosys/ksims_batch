@@ -57,14 +57,16 @@
 			update_id
 	 	)
 	 	VALUES
-		(
-			nextval('mail_id_seq'),
-			'admin',
-			CURRENT_DATE,
-			'KSBAT_PT002',
-			'admin',
-			'admin'
-		)
+		<foreach collection="list" item="user" separator=",">
+			(
+				nextval('mail_id_seq'),
+				#{user.empId},
+				CURRENT_DATE,
+				'KSBAT_PT002',
+				#{user.empId},
+				#{user.empId}
+			)
+		</foreach>
 	</insert>
 	
 	<select id="getInsertedMailMgt" parameterType="int" resultType="com.ksinfo.batch.vo.MailDto">

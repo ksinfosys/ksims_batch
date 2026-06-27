@@ -11,4 +11,5 @@ public interface ReadMonthlyCheckDao {
 	
 	List<UserDto> getTargetUserList(String target) throws Exception;
 	void insertMail(List<UserDto> yearTargetUser, List<UserDto> conductTargetUser) throws Exception;
+	void executeConduct(List<UserDto> conductTargetUser) throws Exception;
 }

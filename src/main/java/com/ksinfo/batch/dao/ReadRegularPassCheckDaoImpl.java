@@ -53,7 +53,7 @@ public class ReadRegularPassCheckDaoImpl extends SqlSessionFactoryService implem
 		String adminContent = this.adminContent.replace("$name$", targetNames);
 
 		for (UserDto target : targetUser){
-			mailSender.sendEmail(target.getEmpCompMail(), sender, subject, target.getEmpName() + content, false, false, "");
+			mailSender.sendEmail(target.getEmpCompMail(), sender, subject, target.getEmpName() + content, true, false, "");
 		} 
 
 		mailSender.sendEmail(targetAdmin, sender, subject, adminContent, false, true, slackEmail);
