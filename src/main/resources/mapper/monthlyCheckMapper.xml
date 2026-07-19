@@ -17,6 +17,8 @@
 			em.logical_del_flg = false
 		AND
 			em.resign_flg = false
+		AND
+			em.partner_comp_flg = false
 		ORDER BY
 			em.emp_id
 	</select>
@@ -39,6 +41,8 @@
 			em.logical_del_flg = false
 		AND
 			em.resign_flg = false
+		AND
+			em.partner_comp_flg = false
         AND
             cm.comp_flg = false
         AND
