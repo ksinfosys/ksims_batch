@@ -14,6 +14,7 @@ import com.ksinfo.batch.tasklet.ReadExpirationDateAndInsertTasklet;
 import com.ksinfo.batch.tasklet.ReadMonthlyCheckTasklet;
 import com.ksinfo.batch.tasklet.ReadRegularPassCheckTasklet;
 import com.ksinfo.batch.tasklet.SendEmailTasklet;
+import com.ksinfo.batch.tasklet.TestTasklet;
 
 import lombok.RequiredArgsConstructor;
 
@@ -25,6 +26,9 @@ public class JobConfiguration {
 	private final StepBuilderFactory stepBuilderFactory;
 	
 	@Autowired
+	TestTasklet TestTasklet;
+
+	@Autowired
 	ReadExpirationDateAndInsertTasklet ReadExpirationDateAndInsertTasklet;
 	
 	@Autowired
@@ -35,6 +39,25 @@ public class JobConfiguration {
 	
 	@Autowired
 	SendEmailTasklet SendEmailTasklet;
+
+/** KSIMSバッチ００番：テスト
+	 * step01: テストメール発信
+	 */
+	@Bean
+	public Job testBatch() {
+		return jobBuilderFactory.get("KSBAT_PT000")
+				.start(testStatus())
+				.build();	
+	}
+	
+	/** KSIMSバッチ００－1番：テストメールステップ */
+	@Bean
+	public Step testStatus() {
+		return stepBuilderFactory.get("Test")
+				.allowStartIfComplete(true)
+				.tasklet(TestTasklet)
+				.build();
+		}
 
 	/** KSIMSバッチ０１番：在留カード満了67日前、メールジョブ 
 	 * 起動：毎日定時（JST 00:00）

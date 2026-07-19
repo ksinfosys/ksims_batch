@@ -44,4 +44,15 @@
 	AND
 	   logical_del_flg = FALSE
 	</select>
+
+	<select id="getTestUser" resultType="com.ksinfo.batch.vo.UserDto">
+	SELECT
+	    emp_comp_mail
+	FROM
+		emp_mgt
+	WHERE
+	    emp_id = '10097'
+	AND
+	   logical_del_flg = FALSE
+	</select>
 </mapper>
