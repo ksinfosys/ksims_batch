@@ -31,19 +31,19 @@ public class ReadMonthlyCheckTasklet implements Tasklet{
 	@Override
 	@Transactional(rollbackFor = {Exception.class})
 	public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws Exception {
-			List<UserDto> yearTargetUser = new ArrayList<UserDto>();
-			List<UserDto> conductTargetUser = new ArrayList<UserDto>();
+		List<UserDto> yearTargetUser = new ArrayList<UserDto>();
+		List<UserDto> conductTargetUser = new ArrayList<UserDto>();
 
-			// yearTargetUser = rmcDao.getTargetUserList(year);
-			conductTargetUser = rmcDao.getTargetUserList(conduct);
+		// yearTargetUser = rmcDao.getTargetUserList(year);
+		conductTargetUser = rmcDao.getTargetUserList(conduct);
 
-			// if(!yearTargetUser.isEmpty() || !conductTargetUser.isEmpty()) {
-				// rmcDao.insertMail(yearTargetUser, conductTargetUser);
-			// }
+		// if(!yearTargetUser.isEmpty() || !conductTargetUser.isEmpty()) {
+			// rmcDao.insertMail(yearTargetUser, conductTargetUser);
+		// }
 
-			if(!conductTargetUser.isEmpty()){
-				rmcDao.executeConduct(conductTargetUser);
-			}
+		if(!conductTargetUser.isEmpty()){
+			rmcDao.executeConduct(conductTargetUser);
+		}
 			
 		return RepeatStatus.FINISHED;
 	}

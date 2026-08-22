@@ -38,6 +38,8 @@
 			cm.work_year_month &gt;= DATE_TRUNC('month', CURRENT_DATE) - INTERVAL '1 month'
 			AND cm.work_year_month &lt;  DATE_TRUNC('month', CURRENT_DATE)
 		AND
+			(TRIM(cm.field_code) = '1' OR cm.field_code IS NULL)
+		AND
 			em.logical_del_flg = false
 		AND
 			em.resign_flg = false
