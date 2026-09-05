@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="blockLoginForFormerEmployeesMapper">
+	<update id="blockLogin" >
+		UPDATE 
+			emp_mgt
+		SET 
+			logical_del_flg = true,
+			rec_update_id = 'BATCH',
+			rec_update_date = now()
+		WHERE 
+			logical_del_flg = false
+		AND 
+			resign_flg = true
+		AND 
+			CURRENT_DATE &gt;= resign_date + INTERVAL '93 days'
+	</update>
+</mapper>
+	

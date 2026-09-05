@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import com.ksinfo.batch.tasklet.BlockLoginForFormerEmployeesTasklet;
 import com.ksinfo.batch.tasklet.ReadExpirationDateAndInsertTasklet;
 import com.ksinfo.batch.tasklet.ReadMonthlyCheckTasklet;
 import com.ksinfo.batch.tasklet.ReadRegularPassCheckTasklet;
@@ -40,6 +41,9 @@ public class JobConfiguration {
 	@Autowired
 	SendEmailTasklet SendEmailTasklet;
 
+	@Autowired
+	BlockLoginForFormerEmployeesTasklet BlockLoginForFormerEmployeesTasklet;
+	
 /** KSIMSバッチ００番：テスト
 	 * step01: テストメール発信
 	 */
@@ -119,6 +123,26 @@ public class JobConfiguration {
 				.build();
 	}	
 
+	/** KSIMSバッチ０４番：退職者の93日後、ログインをブロック
+	 * 起動：毎日（JST 00:00）
+	 * step01: 関連社員一覧
+	 */
+	@Bean
+	public Job blockLoginForFormerEmployeesBatch() {
+		return jobBuilderFactory.get("KSBAT_PT004")
+				.start(blockLoginForFormerEmployeesStatus())
+				.build();	
+	}
+	
+	/** KSIMSバッチ０４－1番：退職者の93日後、ログインをブロック */
+	@Bean
+	public Step blockLoginForFormerEmployeesStatus() {
+		return stepBuilderFactory.get("BlockLoginForFormerEmployees")
+				.allowStartIfComplete(true)
+				.tasklet(BlockLoginForFormerEmployeesTasklet)
+				.build();
+	}
+	
 	/** KSIMSバッチ99番：メール送信ジョブ 
 	 * 起動：毎日定時（JST 08:00）
 	 * step01: メール送信
