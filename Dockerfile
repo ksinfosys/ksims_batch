@@ -24,4 +24,4 @@ COPY --from=builder /app/build/libs/*.jar app.jar
 
 RUN chmod +x execute.sh
 
-ENTRYPOINT ["sh", "./execute.sh", "KSBAT_PT001"]
+ENTRYPOINT ["sh", "./execute.sh", "KSBAT_PT000"]
