@@ -45,6 +45,8 @@
 			em.resign_flg = false
 		AND
 			em.partner_comp_flg = false
+		AND
+			em.auth_code NOT IN ('00', '01', '04', '07')
         AND
             cm.comp_flg = false
         AND
